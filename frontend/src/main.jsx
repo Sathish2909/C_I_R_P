@@ -8,3 +8,6 @@ createRoot(document.getElementById('root')).render(
     <App />
   </StrictMode>,
 )
+
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/900.css';
