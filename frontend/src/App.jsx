@@ -5,10 +5,14 @@ import HomePage from "./components/HomePage/HomePage";
 import TextShpere from "./components/TextShpere/TextShpere";
 import Ideas from "./components/Ideas/Ideas";
 import ContactForm from "./components/ContactForm/ContactForm";
+import DevelopersSection from "./components/Developers/Developers";
+import Navbar from "./components/navbar/navbar";
+
 
 function App() {
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
@@ -16,6 +20,7 @@ function App() {
       <Ideas />
       <TextShpere />
       <ContactForm/>
+      <DevelopersSection />
     </Router>
   );
 }

@@ -165,13 +165,14 @@
 
   #two h1 {
     position: absolute;
-    bottom: -50px;  /* Changed from 0 to -50px to move it down */
+    bottom: -80px;  /* Changed from 0 to -80px to move it down */
     right: 50px;    /* Added right margin to move it left */
     font-size: 8rem;
     font-weight: 900;
     color: rgba(237, 240, 245, 0.76);
     font-family: 'Poppins', sans-serif;
-    transform: translateY(-50px) translateX(0px);
+    /*transform: translateY(-50px) translateX(0px);*/
+    transform: translateY(30px); /* Push it further down */
     z-index: 1;     /* Added to ensure proper layering */
   }
   

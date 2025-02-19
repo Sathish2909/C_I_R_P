@@ -46,10 +46,12 @@ const TextShpere = () => {
 
    return ( 
        <> 
+           <section id="TextShpere">  {/* Added section with ID */}
            <div className="text-shpere"> 
            {/* span tag className must be "tagcloud" */} 
                <span className="tagcloud"></span> 
            </div> 
+           </section>
        </> 
    ); 
 }; 
