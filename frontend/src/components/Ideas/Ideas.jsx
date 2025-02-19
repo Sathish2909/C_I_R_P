@@ -5,7 +5,7 @@ import "./Ideas.css";
 const IdeaCard = ({ imageUrl, title, description, linkTo }) => {
   return (
     <a href={linkTo} className="mx-[5%] no-underline">
-      <div className="service-card relative w-[350px] h-[400px] bg-gray-500 flex flex-col justify-around items-center rounded-[5%] p-[3%] border-4 border-purple-600">
+      <div className="service-card relative w-[350px] h-[400px] bg-[#E7EAEE] flex flex-col justify-around items-center rounded-[5%] p-[3%] border-4 border-[#CC1E4A]">
         <div className="top-image absolute top-0 left-[25%] w-1/2 max-h-[200px] p-[5%] -translate-y-[90px] bg-purple-600 rounded-[5%] shadow-[-2px_6px_2px_1px_rgba(0,0,0,0.6)]">
           <img 
             src={imageUrl} 
@@ -30,7 +30,7 @@ const IdeaCard = ({ imageUrl, title, description, linkTo }) => {
 const Ideas = () => {
   const ideasData = [
     {
-      imageUrl: "/images/pricing.svg",
+      imageUrl: "/images/Elelctricity.jpeg",
       title: "Electricity Generation",
       description: "Click to know more about Piezoelectric Materials",
       linkTo: "#three"

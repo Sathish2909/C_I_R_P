@@ -1,100 +1,132 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './navbar.css';
 
+// Import the Poppins font styles you need
+import '@fontsource/poppins/400.css';  // Regular
+import '@fontsource/poppins/900.css';  // Black
+
 const Navbar = () => {
-  const [activeSection, setActiveSection] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
+  
+  // Refs for section elements
+  const oneRef = useRef(null);
+  const twoRef = useRef(null);
+  const textSphereRef = useRef(null);
+  const fourRef = useRef(null);
+  const devRef = useRef(null);
+  
+  // Refs for navigation elements
+  const logoRef = useRef(null);
+  const navlinksRef = useRef(null);
+  const homeNavRef = useRef(null);
+  const ideasNavRef = useRef(null);
+  const textSphereNavRef = useRef(null);
+  const contactNavRef = useRef(null);
+  const devNavRef = useRef(null);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
 
   useEffect(() => {
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('.navlinks a');
+    // Get references to actual DOM elements
+    oneRef.current = document.getElementById('one');
+    twoRef.current = document.getElementById('two');
+    textSphereRef.current = document.getElementById('TextShpere');
+    fourRef.current = document.getElementById('four');
+    devRef.current = document.getElementById('dev');
 
     const handleScroll = () => {
-      let currentSection = '';
+      const windoo = window.pageYOffset;
       
-      sections.forEach((section) => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (window.scrollY >= sectionTop - sectionHeight / 3 && section.id) {
-          currentSection = section.getAttribute('id');
-        }
-      });
-
-      setActiveSection(currentSection);
-
-      navLinks.forEach((link) => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${currentSection}`) {
-          link.classList.add('active');
-        }
-      });
+      // Ensure all refs exist before using them
+      if (!oneRef.current || !twoRef.current || !textSphereRef.current || 
+          !fourRef.current || !devRef.current) {
+        return;
+      }
+      
+      // Home section visible
+      if (oneRef.current.offsetTop <= windoo && twoRef.current.offsetTop > windoo) {
+        homeNavRef.current.setAttribute("id", "active");
+        ideasNavRef.current.removeAttribute("id");
+        textSphereNavRef.current.removeAttribute("id");
+        contactNavRef.current.removeAttribute("id");
+        devNavRef.current.removeAttribute("id");
+        logoRef.current.removeAttribute("id", "blue");
+      }
+      // Ideas section visible
+      else if (twoRef.current.offsetTop <= windoo && textSphereRef.current.offsetTop > windoo) {
+        ideasNavRef.current.setAttribute("id", "active2");
+        homeNavRef.current.removeAttribute("id");
+        textSphereNavRef.current.removeAttribute("id");
+        contactNavRef.current.removeAttribute("id");
+        devNavRef.current.removeAttribute("id");
+        logoRef.current.setAttribute("id", "blue");
+      }
+      // TextSphere section visible
+      else if (textSphereRef.current.offsetTop <= windoo && fourRef.current.offsetTop > windoo) {
+        textSphereNavRef.current.setAttribute("id", "active3");
+        ideasNavRef.current.setAttribute("id", "blue");
+        homeNavRef.current.setAttribute("id", "blue");
+        contactNavRef.current.setAttribute("id", "blue");
+        devNavRef.current.setAttribute("id", "blue");
+        logoRef.current.removeAttribute("id", "blue");
+      }
+      // Contact section visible - fixed this section
+      else if (fourRef.current.offsetTop <= windoo && devRef.current.offsetTop > windoo) {
+        // First clear all active states
+        homeNavRef.current.removeAttribute("id");
+        ideasNavRef.current.removeAttribute("id");
+        textSphereNavRef.current.removeAttribute("id");
+        devNavRef.current.removeAttribute("id");
+        
+        // Apply correct active state to contact link
+        contactNavRef.current.setAttribute("id", "active4");
+        logoRef.current.setAttribute("id", "blue");
+      }
+      // Dev section visible
+      else if (devRef.current.offsetTop <= windoo) {
+        devNavRef.current.setAttribute("id", "active5");
+        ideasNavRef.current.setAttribute("id", "blue");
+        homeNavRef.current.setAttribute("id", "blue");
+        contactNavRef.current.setAttribute("id", "blue");
+        textSphereNavRef.current.setAttribute("id", "blue");
+        logoRef.current.removeAttribute("id", "blue");
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    
+    // Run once on initial load to set correct active state
+    handleScroll();
+    
+    // Clean up event listener
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
     <nav className="navbar">
       <div className="logobox">
-        <svg className="logo" viewBox="0 0 85 103" xmlns="http://www.w3.org/2000/svg">
+        <svg className="logo" ref={logoRef} viewBox="0 0 85 103" xmlns="http://www.w3.org/2000/svg">
           <path d="M50 1H1V25C1 25 36.5 23.5 45.5 25C54.5 26.5 55 32 55 36C55 40 51.5504 46.0249 45.5 46H29V65H32.5L52.5 102.5H84L61.5 62.5C77.5976 55.9167 85.5 47.5 83 27.5C80.5 7.5 55 0.999994 50 1Z"/>
         </svg>
       </div>
-      <div className="navlinks" id="navlinks">
-        <a href="#one" className={activeSection === 'one' ? 'active' : ''}>Home</a>
-        <a href="#two" className={activeSection === 'two' ? 'active' : ''}>Ideas</a>
-        <a href="#TextShpere" className={activeSection === 'TextShpere' ? 'active' : ''}>TextShpere</a>
-        <a href="#four" className={activeSection === 'four' ? 'active' : ''}>Contact</a>
-        <a href="#dev" className={activeSection === 'dev' ? 'active' : ''}>Dev</a>
-      </div>
-      <div className="ham-right">
-        <div className="hamburger-menu" id="hamburger-menu">
-          <svg viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path id="top-line" d="M0 1H11H22" stroke="#E7EAEE"/>
-            <line id="bottom-line" y1="22.5" x2="22" y2="22.5" stroke="#E7EAEE"/>
-            <line id="middle-line" y1="11.5" x2="22" y2="11.5" stroke="#E7EAEE"/>
-          </svg>
-        </div>
-      </div>
-    </nav>
-  );
-};
-
-export default Navbar;
-
-
-
-/*import React from 'react';
-import './navbar.css';
-
-const Navbar = () => {
-  const toggleMenu = () => {
-    const navlinks = document.getElementById('navlinks');
-    const hamburger = document.getElementById('hamburger-menu');
-    
-    navlinks.classList.toggle('openPage');
-    hamburger.classList.toggle('open');
-  };
-
-  return (
-    <nav className="navbar">
-      <div className="logobox">
-        <svg className="logo" viewBox="0 0 85 103" xmlns="http://www.w3.org/2000/svg">
-          <path d="M50 1H1V25C1 25 36.5 23.5 45.5 25C54.5 26.5 55 32 55 36C55 40 51.5504 46.0249 45.5 46H29V65H32.5L52.5 102.5H84L61.5 62.5C77.5976 55.9167 85.5 47.5 83 27.5C80.5 7.5 55 0.999994 50 1Z"/>
-        </svg>
-      </div>
-      <div className="navlinks" id="navlinks">
-        <a className="one" href="#one">Home</a>
-        <a className="two" href="#two">Ideas</a>
-        <a className="three" href="#TextShpere">TextShpere</a>
-        <a className="four" href="#four">Contact</a>
-        <a className="five" href="#dev">Dev</a>
+      <div 
+        className={menuOpen ? "openPage" : "navlinks"} 
+        id="navlinks" 
+        ref={navlinksRef}
+      >
+        <a className="one" href="#one" ref={homeNavRef}>Home</a>
+        <a className="two" href="#two" ref={ideasNavRef}>Ideas</a>
+        <a className="three" href="#TextShpere" ref={textSphereNavRef}>TextShpere</a>
+        <a className="four" href="#four" ref={contactNavRef}>Contact</a>
+        <a className="five" href="#dev" ref={devNavRef}>Dev</a>
       </div>
       <div className="ham-right">
         <div 
-          className="hamburger-menu"
+          className={`hamburger-menu ${menuOpen ? 'open' : ''}`} 
           id="hamburger-menu"
           onClick={toggleMenu}
         >
@@ -109,4 +141,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;*/
+export default Navbar;
