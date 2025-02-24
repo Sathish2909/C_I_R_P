@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;900&display=swap');
+
+
 * {
     margin: 0;
     padding: 0;
@@ -148,6 +151,11 @@
       background-color: #F75469;
       color: #E7EAEE;
     }
+
+    .openPage a:nth-child(6):hover {
+      background-color: #4CAF50; /* Same color theme as active6 */
+      color: #E7EAEE;
+    }
   }
   
   #active {
@@ -170,6 +178,10 @@
   #active5 {
     border-bottom: 4px solid #F75469;
     color: #013F59;
+  }
+
+  #active6 {
+    border-bottom: 4px solid #4CAF50; /* Choose a distinctive color for AboutUs */
   }
   
   #blue {

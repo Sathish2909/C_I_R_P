@@ -10,6 +10,7 @@ const Navbar = () => {
   
   // Refs for section elements
   const oneRef = useRef(null);
+  const aboutUsRef = useRef(null);
   const twoRef = useRef(null);
   const textSphereRef = useRef(null);
   const fourRef = useRef(null);
@@ -19,6 +20,7 @@ const Navbar = () => {
   const logoRef = useRef(null);
   const navlinksRef = useRef(null);
   const homeNavRef = useRef(null);
+  const aboutUsNavRef = useRef(null);
   const ideasNavRef = useRef(null);
   const textSphereNavRef = useRef(null);
   const contactNavRef = useRef(null);
@@ -31,6 +33,7 @@ const Navbar = () => {
   useEffect(() => {
     // Get references to actual DOM elements
     oneRef.current = document.getElementById('one');
+    aboutUsRef.current = document.getElementById('aboutUs');
     twoRef.current = document.getElementById('two');
     textSphereRef.current = document.getElementById('TextShpere');
     fourRef.current = document.getElementById('four');
@@ -40,57 +43,69 @@ const Navbar = () => {
       const windoo = window.pageYOffset;
       
       // Ensure all refs exist before using them
-      if (!oneRef.current || !twoRef.current || !textSphereRef.current || 
+      if (!oneRef.current || !aboutUsRef.current || !twoRef.current || !textSphereRef.current || 
           !fourRef.current || !devRef.current) {
         return;
       }
       
       // Home section visible
-      if (oneRef.current.offsetTop <= windoo && twoRef.current.offsetTop > windoo) {
+      if (windoo >= oneRef.current.offsetTop && windoo < aboutUsRef.current.offsetTop) {
         homeNavRef.current.setAttribute("id", "active");
+        aboutUsNavRef.current.removeAttribute("id");
         ideasNavRef.current.removeAttribute("id");
         textSphereNavRef.current.removeAttribute("id");
         contactNavRef.current.removeAttribute("id");
         devNavRef.current.removeAttribute("id");
         logoRef.current.removeAttribute("id", "blue");
       }
+      // AboutUs section visible
+      else if (windoo >= aboutUsRef.current.offsetTop && windoo < twoRef.current.offsetTop) {
+        aboutUsNavRef.current.setAttribute("id", "active6");
+        homeNavRef.current.removeAttribute("id");
+        ideasNavRef.current.removeAttribute("id");
+        textSphereNavRef.current.removeAttribute("id");
+        contactNavRef.current.removeAttribute("id");
+        devNavRef.current.removeAttribute("id");
+        logoRef.current.setAttribute("id", "blue");
+      }
       // Ideas section visible
-      else if (twoRef.current.offsetTop <= windoo && textSphereRef.current.offsetTop > windoo) {
+      else if (windoo >= twoRef.current.offsetTop && windoo < textSphereRef.current.offsetTop) {
         ideasNavRef.current.setAttribute("id", "active2");
         homeNavRef.current.removeAttribute("id");
+        aboutUsNavRef.current.removeAttribute("id");
         textSphereNavRef.current.removeAttribute("id");
         contactNavRef.current.removeAttribute("id");
         devNavRef.current.removeAttribute("id");
         logoRef.current.setAttribute("id", "blue");
       }
       // TextSphere section visible
-      else if (textSphereRef.current.offsetTop <= windoo && fourRef.current.offsetTop > windoo) {
+      else if (windoo >= textSphereRef.current.offsetTop && windoo < fourRef.current.offsetTop) {
         textSphereNavRef.current.setAttribute("id", "active3");
-        ideasNavRef.current.setAttribute("id", "blue");
-        homeNavRef.current.setAttribute("id", "blue");
-        contactNavRef.current.setAttribute("id", "blue");
-        devNavRef.current.setAttribute("id", "blue");
+        homeNavRef.current.removeAttribute("id");
+        aboutUsNavRef.current.removeAttribute("id");
+        ideasNavRef.current.removeAttribute("id");
+        contactNavRef.current.removeAttribute("id");
+        devNavRef.current.removeAttribute("id");
         logoRef.current.removeAttribute("id", "blue");
       }
-      // Contact section visible - fixed this section
-      else if (fourRef.current.offsetTop <= windoo && devRef.current.offsetTop > windoo) {
-        // First clear all active states
+      // Contact section visible
+      else if (windoo >= fourRef.current.offsetTop && windoo < devRef.current.offsetTop) {
+        contactNavRef.current.setAttribute("id", "active4");
         homeNavRef.current.removeAttribute("id");
+        aboutUsNavRef.current.removeAttribute("id");
         ideasNavRef.current.removeAttribute("id");
         textSphereNavRef.current.removeAttribute("id");
         devNavRef.current.removeAttribute("id");
-        
-        // Apply correct active state to contact link
-        contactNavRef.current.setAttribute("id", "active4");
         logoRef.current.setAttribute("id", "blue");
       }
       // Dev section visible
-      else if (devRef.current.offsetTop <= windoo) {
+      else if (windoo >= devRef.current.offsetTop) {
         devNavRef.current.setAttribute("id", "active5");
-        ideasNavRef.current.setAttribute("id", "blue");
-        homeNavRef.current.setAttribute("id", "blue");
-        contactNavRef.current.setAttribute("id", "blue");
-        textSphereNavRef.current.setAttribute("id", "blue");
+        homeNavRef.current.removeAttribute("id");
+        aboutUsNavRef.current.removeAttribute("id");
+        ideasNavRef.current.removeAttribute("id");
+        textSphereNavRef.current.removeAttribute("id");
+        contactNavRef.current.removeAttribute("id");
         logoRef.current.removeAttribute("id", "blue");
       }
     };
@@ -119,6 +134,7 @@ const Navbar = () => {
         ref={navlinksRef}
       >
         <a className="one" href="#one" ref={homeNavRef}>Home</a>
+        <a className="aboutUs" href="#aboutUs" ref={aboutUsNavRef}>About Us</a>
         <a className="two" href="#two" ref={ideasNavRef}>Ideas</a>
         <a className="three" href="#TextShpere" ref={textSphereNavRef}>TextShpere</a>
         <a className="four" href="#four" ref={contactNavRef}>Contact</a>

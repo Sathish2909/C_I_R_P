@@ -45,7 +45,7 @@ const DeveloperCard = ({ name, title, image, email, socialLinks }) => {
 const DevelopersSection = () => {
   const developers = [
     {
-      name: "Vivek Hotti",
+      name: "Godwin Wilfred",
       title: "Web Developer",
       image: "images/Vivek.png",
       email: "vivekshotti@gmail.com",
@@ -58,8 +58,8 @@ const DevelopersSection = () => {
     },
     // Add Developer 2 data here
     {
-      name: "Developer 2",
-      title: "Role 2",
+      name: "Sathish S",
+      title: "Backend Developer",
       image: "images/Developer2.png",
       email: "developer2@example.com",
       socialLinks: [
@@ -71,8 +71,8 @@ const DevelopersSection = () => {
     },
     // Add Developer 3 data here
     {
-      name: "Developer 3",
-      title: "Role 3",
+      name: "Sundar C",
+      title: "Frontend Developer",
       image: "images/Developer3.png",
       email: "developer3@example.com",
       socialLinks: [
