@@ -72,9 +72,9 @@
     overflow-x: auto;
     white-space: nowrap;
     scroll-behavior: smooth;
-    gap: 80px; /* Space between cards */
+    gap: 90px; /* Space between cards */
     padding: 20px 10px; /* More padding for better spacing */
-    margin-top: 100px; /* Add space at top */
+    margin-top: 10px; /* Add space at top */
     margin-bottom: 50px; /* Add space below cards */
 }
 
@@ -169,7 +169,7 @@
 
   #two h1 {
     position: absolute;
-    bottom: -80px;  /* Changed from 0 to -80px to move it down */
+    bottom: 0px;  /* Changed from 0 to -80px to move it down */
     right: 50px;    /* Added right margin to move it left */
     font-size: 8rem;
     font-weight: 900;
@@ -229,7 +229,7 @@
     line-height: 1.5; /* Increase line spacing for readability */
     max-width: 90%; /* Ensure text doesn’t overflow */
     word-wrap: break-word; /* Prevent long words from causing overlap */
-    margin-bottom: 50px; /* Space between text and button */
+    margin-bottom: 30px; /* Space between text and button */
 }
 
     
