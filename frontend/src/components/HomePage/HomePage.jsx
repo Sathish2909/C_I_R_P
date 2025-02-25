@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import anime from 'animejs/lib/anime.es.js';
-import './HomePage.css';
+import React, { useEffect } from "react";
+import anime from "animejs/lib/anime.es.js";
+import "./HomePage.css";
 
 const HomePage = () => {
   useEffect(() => {
@@ -11,51 +11,52 @@ const HomePage = () => {
       scaleOut: 3,
       durationIn: 800,
       durationOut: 600,
-      delay: 500
+      delay: 500,
     };
 
-    anime.timeline({ loop: true })
+    anime
+      .timeline({ loop: true })
       .add({
-        targets: '.intro-1',
+        targets: ".intro-1",
         opacity: heading.opacityIn,
         scale: heading.scaleIn,
-        duration: heading.durationIn
+        duration: heading.durationIn,
       })
       .add({
-        targets: '.intro-1',
+        targets: ".intro-1",
         opacity: 0,
         scale: heading.scaleOut,
         duration: heading.durationOut,
         easing: "easeInExpo",
-        delay: heading.delay
+        delay: heading.delay,
       })
       .add({
-        targets: '.intro-2',
+        targets: ".intro-2",
         opacity: heading.opacityIn,
         scale: heading.scaleIn,
-        duration: heading.durationIn
+        duration: heading.durationIn,
       })
       .add({
-        targets: '.intro-2',
+        targets: ".intro-2",
         opacity: 0,
         scale: heading.scaleOut,
         duration: heading.durationOut,
         easing: "easeInExpo",
-        delay: heading.delay
+        delay: heading.delay,
       })
       .add({
-        targets: '.intro-3',
+        targets: ".intro-3",
         opacity: heading.opacityIn,
         scale: heading.scaleIn,
-        duration: heading.durationIn
+        duration: heading.durationIn,
       })
       .add({
-        targets: '.intro-3',
+        targets: ".intro-3",
         opacity: 0,
         scale: heading.scaleOut,
         duration: heading.durationOut,
         easing: "easeInExpo",
-        delay: heading.delay
+        delay: heading.delay,
       });
   }, []);
 
@@ -64,33 +65,25 @@ const HomePage = () => {
       <div className="left">
         <div className="head-wrapper">
           <h1 className="heading">
-            <span className="intro intro-1" style={{ color: 'cyan' }}>Godwin's</span>
-            <span className="intro intro-2" style={{ color: 'cyan' }}>Demo</span>
-            <span className="intro intro-3" style={{ color: 'cyan' }}>Slogan</span>
+            <span className="intro intro-1" style={{ color: "cyan" }}>
+              Ideas
+            </span>
+            <span className="intro intro-2" style={{ color: "cyan" }}>
+              Thoughts
+            </span>
+            <span className="intro intro-3" style={{ color: "cyan" }}>
+              Perceptions
+            </span>
           </h1>
         </div>
       </div>
 
       <div className="right">
-      <div className="rotating-circle-container" style={{ width: '1000px', height: '1000px' }}>
-    <div className="rotating-circle">
-        <div className="circle-text" data-rotation="0"><b>Value 1</b></div>
-        <div className="circle-text" data-rotation="72"><b>Value 1</b></div>
-        <div className="circle-text" data-rotation="144"><b>Value 1</b></div>
-        <div className="circle-text" data-rotation="216"><b>Value 1</b></div>
-        <div className="circle-text" data-rotation="288"><b>Value 1</b></div>
-    </div>
-    <div className="static-image">
-        <img 
-            src="/images/home-graphic.jpeg" 
-            style={{ zIndex: 1 }} 
-            alt="home image" 
-            className="home-image"
-        />
-    </div>
-</div>
-        </div>
-      
+        <div
+          className="rotating-circle-container"
+          style={{ width: "1000px", height: "1000px" }}
+        ></div>
+      </div>
     </section>
   );
 };

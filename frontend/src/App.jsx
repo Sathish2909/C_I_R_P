@@ -9,7 +9,7 @@ import ContactForm from "./components/ContactForm/ContactForm";
 import DevelopersSection from "./components/Developers/Developers";
 import Navbar from "./components/navbar/navbar";
 import Footer from "./components/Footer/Footer";
-
+import IdeaPage from "./components/IdeaPage";
 
 function App() {
   return (
@@ -18,13 +18,14 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/ideas-page" element={<IdeaPage />} />
       </Routes>
-      <AboutUs/>
+      <AboutUs />
       <Ideas />
       <TextShpere />
-      <ContactForm/>
+      <ContactForm />
       <DevelopersSection />
-      <Footer/>
+      <Footer />
     </Router>
   );
 }
