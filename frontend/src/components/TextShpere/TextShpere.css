@@ -33,7 +33,7 @@ color: #ff6347;
 }
 
 #TextShpere {
-    min-height: 100vh; /* ✅ Ensures it takes full screen space */
+    height: 100vh; /* ✅ Ensures it takes full screen space */
     display: flex;
     align-items: center;
     justify-content: center;
