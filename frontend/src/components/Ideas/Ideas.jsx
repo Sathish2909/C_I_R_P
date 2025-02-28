@@ -52,7 +52,21 @@ const Ideas = () => {
       title: "Hydro Power",
       description: "Discover hydroelectric power generation",
       linkTo: "#six"
+    },
+    {
+      imageUrl: "/images/biomass.svg",
+      title: "Biomass Energy",
+      description: "Learn about organic matter energy conversion",
+      linkTo: "#seven"
+    },
+    {
+        imageUrl: "", // Remove the image URL for the eighth card
+        title: "All Domains",
+        description: "Click to view all the available Domains",
+        linkTo: "#eight",
+        isSpecial: true // Add a flag to identify the special card
     }
+    
   ];
 
   return (
@@ -62,17 +76,47 @@ const Ideas = () => {
       </h1>
       
       <div className="ideas-container scrollbar-hide py-4">
-        {ideasData.map((idea, index) => (
-          <IdeaCard
-            key={index}
-            imageUrl={idea.imageUrl}
-            title={idea.title}
-            description={idea.description}
-            linkTo={idea.linkTo}
-          />
-        ))}
-      </div>
+  {ideasData.map((idea, index) =>
+    index === 5 ? (
+      <a
+  href="#placeholder"
+  key={index}
+  className="mx-[5%] no-underline all-domains-card"
+>
+  <div className="service-card relative w-[350px] h-[400px] bg-[#E7EAEE] flex flex-col justify-around items-center rounded-[5%] p-[3%] border-4 border-[#CC1E4A] overflow-hidden transition-all duration-300">
+    {/* Title that moves further up on hover */}
+    <h2 className="domain-title text-[2.5rem] transition-all duration-300">
+      {idea.title}
+    </h2>
 
+    {/* Description that moves up and fades out on hover */}
+    <p className="domain-description text-[1.5rem] transition-all duration-300">
+      {idea.description}
+    </p>
+
+    {/* Domains that appear with a delay on hover */}
+    <div className="hover-domains">
+      <p>Water</p>
+      <p>Sun</p>
+      <p>Wind</p>
+      <p>Earth</p>
+    </div>
+
+    {/* Button that moves down on hover */}
+    <p className="click-button transition-all duration-300">Click Here</p>
+  </div>
+</a>
+    ) : (
+      <IdeaCard
+        key={index}
+        imageUrl={idea.imageUrl}
+        title={idea.title}
+        description={idea.description}
+        linkTo={idea.linkTo}
+      />
+    )
+  )}
+</div>
       <style jsx>{`
         @media screen and (max-width: 768px) {
           #two {

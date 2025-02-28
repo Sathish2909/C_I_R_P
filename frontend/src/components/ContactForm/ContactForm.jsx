@@ -64,7 +64,7 @@ const ContactForm = () => {
             name="google-sheet"
           >
             <div className="cnt-img-mob">
-              <img src="images/contact-image.svg" alt="Connect Image" />
+              <img src="/images/contact-image.svg" alt="Connect Image" />
             </div>
             <label htmlFor="fname">Full Name</label>
             <input 
