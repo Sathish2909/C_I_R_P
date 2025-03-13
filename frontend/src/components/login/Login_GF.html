@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login / Sign Up - Chat Application</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- Facebook SDK -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #141e30, #243b55);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-container h2 {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .login-container p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #00b4db;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 180, 219, 0.5);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-login, .btn-signup {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login {
+            background: linear-gradient(45deg, #00b4db, #0083b0);
+            color: #fff;
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(45deg, #0083b0, #006687);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 131, 176, 0.3);
+        }
+
+        .btn-signup {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            margin-top: 10px;
+        }
+
+        .btn-signup:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .toggle-form {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .toggle-form:hover {
+            color: #00b4db;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .social-login {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .social-login img {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .social-login img:hover {
+            transform: scale(1.1);
+        }
+
+        .social-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+        }
+        .social-icon svg {
+            width: 100%; 
+            height: 100%;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+        .social-icon {
+            cursor: pointer;
+            transition: transform 0.3s;
+            
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .facebook-icon {
+            padding: 10px;  /* Increased padding for better visibility */
+            width: 40px; /* Adjusted size */
+            height: 40px;
+            padding: 6px; /* Reduced padding */
+            border: 1px solid #1877F2; /* Border with Facebook's blue color */
+            background-color: white;
+            border-radius: 50%;
+        }
+
+        .facebook-icon svg {
+            width: 30px; /* Scaled down SVG size */
+            height: 30px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Welcome Back!</h2>
+        <p>Please log in to continue to your account.</p>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn-login">Log In</button>
+            <div class="error-message" id="loginError">Invalid email or password.</div>
+        </form>
+        <div class="toggle-form" id="toggleSignUp">Don't have an account? Sign Up</div>
+
+        <form id="signupForm" style="display: none;">
+            <div class="form-group">
+                <label for="signupEmail">Email</label>
+                <input type="email" id="signupEmail" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" placeholder="Create a password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+            </div>
+            <button type="submit" class="btn-signup">Sign Up</button>
+            <div class="error-message" id="signupError">Passwords do not match.</div>
+        </form>
+        <div class="toggle-form" id="toggleLogin" style="display: none;">Already have an account? Log In</div>
+
+        <!-- Social Login Section -->
+        <div class="social-login">
+            <span class="social-text" id="socialText">Also login with</span>
+            <!-- Google SVG Logo - Simplified version -->
+            <div id="googleLogin" class="social-icon"></div>
+            
+            <!-- Facebook SVG Logo - Simplified version -->
+            <div id="facebookLogin" class="social-icon facebook-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" title="Login with Facebook">
+                    <path fill="#1877F2" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle between Login and Sign-Up Forms
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const toggleSignUp = document.getElementById('toggleSignUp');
+        const toggleLogin = document.getElementById('toggleLogin');
+        const loginError = document.getElementById('loginError');
+        const signupError = document.getElementById('signupError');
+        const socialText = document.getElementById('socialText');
+
+        toggleSignUp.addEventListener('click', () => {
+            loginForm.style.display = 'none';
+            signupForm.style.display = 'block';
+            toggleSignUp.style.display = 'none';
+            toggleLogin.style.display = 'block';
+            socialText.textContent = 'Also sign up with';
+        });
+
+        toggleLogin.addEventListener('click', () => {
+            signupForm.style.display = 'none';
+            loginForm.style.display = 'block';
+            toggleLogin.style.display = 'none';
+            toggleSignUp.style.display = 'block';
+            socialText.textContent = 'Also login with';
+        });
+
+        // Store credentials in localStorage (temporary)
+        function storeCredentials(email, password) {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            users.push({ email, password });
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        // Validate credentials from localStorage
+        function validateCredentials(email, password) {
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            return users.some(user => user.email === email && user.password === password);
+        }
+
+        // Login Form Submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (validateCredentials(email, password)) {
+                alert("Login successful!");
+                // Redirect to the main page
+                window.location.href = '/chat';
+            } else {
+                loginError.style.display = 'block';
+            }
+        });
+
+        // Sign-Up Form Submission
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                signupError.style.display = 'block';
+            } else {
+                signupError.style.display = 'none';
+                storeCredentials(email, password);
+                alert("Sign-up successful! Please log in.");
+                // Reset form and switch to login
+                signupForm.reset();
+                signupForm.style.display = 'none';
+                loginForm.style.display = 'block';
+                toggleLogin.style.display = 'none';
+                toggleSignUp.style.display = 'block';
+                socialText.textContent = 'Also login with';
+            }
+        });
+
+        // Google Login
+        function handleGoogleLogin(response) {
+            console.log("Google Login Response:", response);
+            const { credential } = response;
+            // Decode the JWT token to get user info
+            const payload = JSON.parse(atob(credential.split('.')[1]));
+            console.log("User Info:", payload);
+            alert(`Welcome, ${payload.name}! You are logged in with Google.`);
+            // Redirect or perform other actions after successful login
+            window.location.href = '/chat';
+        }
+
+        // Initialize Google SDK
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: 'YOUR_GOOGLE_CLIENT_ID', // Replace with your Google Client ID
+                callback: handleGoogleLogin,
+            });
+            google.accounts.id.renderButton(
+                document.getElementById('googleLogin'),
+                { theme: 'filled_blue', size: 'medium', shape: 'circle', text: 'icon' }
+            );
+        };
+
+        // Facebook Login
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: 'YOUR_FACEBOOK_APP_ID', // Replace with your Facebook App ID
+                cookie: true,
+                xfbml: true,
+                version: 'v18.0',
+            });
+
+            FB.getLoginStatus(function (response) {
+                if (response.status === 'connected') {
+                    console.log("Facebook Login Response:", response);
+                }
+            });
+        };
+
+        document.getElementById('facebookLogin').addEventListener('click', function () {
+            FB.login(function (response) {
+                if (response.authResponse) {
+                    FB.api('/me', { fields: 'name,email' }, function (response) {
+                        console.log("Facebook User Info:", response);
+                        alert(`Welcome, ${response.name}! You are logged in with Facebook.`);
+                        // Redirect or perform other actions after successful login
+                        window.location.href = '/chat';
+                    });
+                } else {
+                    console.log("User cancelled login or did not fully authorize.");
+                }
+            }, { scope: 'email' });
+        });
+    </script>
+</body>
+</html>
+
+
+<!--- Comments for Database Integration:
+
+Replace localStorage with a database (e.g., SQLite, PostgreSQL) to store credentials permanently.
+
+Use Flask and SQLAlchemy to handle database operations. Example:
+
+from flask_sqlalchemy import SQLAlchemy
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(80), nullable=False)
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+    new_user = User(email=email, password=password)
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify({"message": "User created successfully"}), 201 --->

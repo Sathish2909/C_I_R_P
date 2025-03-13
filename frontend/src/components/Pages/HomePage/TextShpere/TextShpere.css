@@ -1,0 +1,92 @@
+/* Importing google font */
+@import url('https://fonts.googleapis.com/css?family=Inter:wght@100;200;300;400;600;700;800;900&display=swap'); 
+
+#TextShpere {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    background: #1e1e1e;
+    overflow: hidden;
+}
+
+.left-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0 5%;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.contributors-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid #00ffffff;
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.5);
+    margin-right: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contributors-image:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 255, 255, 0.8);
+}
+
+.title {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-right: 55px;
+    color: #00ffffff;
+    text-shadow: 0 1px 25px rgba(0, 255, 255, 0.7);
+}
+
+.description {
+    font-size: 1.15em; /* Increased from 1.1em */
+    font-weight: 400;
+    line-height: 1.8;
+    color: #e0e0e0;
+    max-width: 600px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    border-left: 4px solid #00ffffff;
+    align-self: center; /* Center horizontally within the left section */
+    text-align: center; /* Center the text within the description box */
+}
+
+.text-shpere { 
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} 
+
+.tagcloud { 
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.0625em;
+    font-size: 1.3em;
+}
+
+/* Change color of each text in sphere on hover */
+.tagcloud--item { 
+    color: #00ffffff; 
+    text-transform: uppercase; 
+}
+
+.tagcloud--item:hover { 
+    color: #ff6347;
+}
