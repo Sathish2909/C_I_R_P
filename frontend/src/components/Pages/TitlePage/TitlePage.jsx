@@ -11,13 +11,11 @@ const TitlePage = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Convert `domainId` to lowercase before sending API request
     axios
-      .get(`http://localhost:5000/api/domains/${domainId.toLowerCase()}/topics`, {
+      .get(`http://localhost:5000/api/domains/${domainId}/topics`, {
         params: { level: level || "all" },
       })
       .then((response) => {
-        console.log("API Response:", response.data); // Debugging
         if (Array.isArray(response.data)) {
           setTopics(response.data);
         } else {
@@ -32,7 +30,6 @@ const TitlePage = () => {
       });
   }, [domainId, level]);
 
-  // Redirect to ProjectPage when a topic is clicked
   const handleTopicClick = (topicId) => {
     navigate(`/domains/${domainId}/${level}/${topicId}`);
   };
@@ -53,9 +50,9 @@ const TitlePage = () => {
         <div className="topics-container">
           {topics.map((topic) => (
             <div
-              key={topic.id}
+              key={topic._id}
               className="topic-card"
-              onClick={() => handleTopicClick(topic.id)}
+              onClick={() => handleTopicClick(topic._id)}
             >
               <div className="topic-content">
                 <h2 className="topic-title">{topic.title}</h2>
@@ -63,6 +60,15 @@ const TitlePage = () => {
               </div>
             </div>
           ))}
+          <div
+            className="topic-card add-project-card"
+            onClick={() => navigate(`/domains/${domainId}/${level}/add-project`)}
+          >
+            <div className="topic-content">
+              <h2 className="topic-title">Add Project</h2>
+              <p className="topic-description">Click to add a new project.</p>
+            </div>
+          </div>
         </div>
       )}
     </div>

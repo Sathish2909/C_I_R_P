@@ -26,38 +26,70 @@ const ProjectPage = () => {
 
   return (
     <div className="project-page">
-      {/* Project Header */}
       <header className="project-header">
         <h1>{topic.title}</h1>
         <p className="project-subtitle">{topic.description}</p>
       </header>
 
-      {/* Project Content */}
       <div className="project-container">
-        {/* Left Side: Project Details */}
         <div className="project-details">
           <div className="content-box">
             <h2>📖 Detailed Explanation</h2>
             <p>{topic.content}</p>
           </div>
 
-          <div className="published-papers content-box">
-            <h2>📑 Published Papers</h2>
-            <ul>
-              {topic.publishedPapers.map((paper, index) => (
-                <li key={index}>
-                  <strong>{paper.title}</strong> - {paper.date}
-                </li>
-              ))}
-            </ul>
-          </div>
+          {topic.futureAdvancements && (
+            <div className="content-box">
+              <h2>🚀 Future Advancements</h2>
+              <p>{topic.futureAdvancements}</p>
+            </div>
+          )}
+
+          {topic.issuesFaced && (
+            <div className="content-box">
+              <h2>⚠️ Issues Faced</h2>
+              <p>{topic.issuesFaced}</p>
+            </div>
+          )}
+
+          {topic.referenceLinks.length > 0 && (
+            <div className="content-box">
+              <h2>🔗 Reference Links</h2>
+              <ul>
+                {topic.referenceLinks.map((link, index) => (
+                  <li key={index}>
+                    <a href={link} target="_blank" rel="noopener noreferrer">
+                      {link}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {topic.publishedPapers.length > 0 && (
+            <div className="content-box">
+              <h2>📑 Published Papers</h2>
+              <ul>
+                {topic.publishedPapers.map((paper, index) => (
+                  <li key={index}>
+                    <strong>{paper.title}</strong> - {paper.date}
+                    <a href={paper.fileUrl} target="_blank" rel="noopener noreferrer">
+                      View PDF
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
-        {/* Right Side: Author Profile */}
         <aside className="author-box">
           <h2>👤 Author</h2>
           <div className="author-info">
-            <div className="author-avatar">{topic.author.name.charAt(0)}</div>
+            <div className="author-avatar">
+              <img src={topic.author.profilePhoto} alt={topic.author.name} />
+            </div>
             <div className="author-text">
               <h3>{topic.author.name}</h3>
               <p>Email: <a href={`mailto:${topic.author.email}`}>{topic.author.email}</a></p>

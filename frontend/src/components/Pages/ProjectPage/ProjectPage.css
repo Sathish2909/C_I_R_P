@@ -156,3 +156,30 @@
     max-width: 600px;
   }
 }
+
+
+/* Add this to ProjectPage.css */
+.author-avatar img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.content-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.content-box ul li {
+  margin-bottom: 10px;
+}
+
+.content-box ul li a {
+  color: #ffcc00;
+  text-decoration: none;
+}
+
+.content-box ul li a:hover {
+  text-decoration: underline;
+}
