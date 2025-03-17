@@ -203,3 +203,38 @@
   color: #cc1e4a;
   bottom: 10px; /* Move the button down during hover */
 }
+
+/* Add Domain Card Styles */
+.add-domain-card {
+  background-color: #f0f0f0;
+  border: 2px dashed #cc1e4a;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-domain-card:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.add-domain-card .domain-title {
+  color: #666;
+}
+
+.add-domain-card .domain-description {
+  color: #888;
+}
+
+.add-domain-card:hover .domain-title,
+.add-domain-card:hover .domain-description {
+  color: #001f3f;
+}
+
+.add-domain-card .click-button {
+  display: none;
+}
+
+.add-domain-card .hover-content {
+  display: none;
+}

@@ -24,6 +24,8 @@ const AddProject = () => {
     referenceLinks: [],
     relatedImages: [],
   });
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchDomains = async () => {
@@ -32,6 +34,7 @@ const AddProject = () => {
         setDomains(response.data);
       } catch (error) {
         console.error("Error fetching domains:", error);
+        setError("Failed to load domains. Please try again later.");
       }
     };
     fetchDomains();
@@ -41,29 +44,87 @@ const AddProject = () => {
     const { name, value } = e.target;
     if (name.startsWith("author.")) {
       const authorField = name.split(".")[1];
-      setFormData({
-        ...formData,
-        author: { ...formData.author, [authorField]: value },
-      });
+      setFormData((prev) => ({
+        ...prev,
+        author: { ...prev.author, [authorField]: value },
+      }));
+    } else if (name === "referenceLinks") {
+      setFormData((prev) => ({
+        ...prev,
+        referenceLinks: value.split(",").map((link) => link.trim()),
+      }));
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
+    setError("");
   };
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     if (name === "profilePhoto") {
-      setFormData({
-        ...formData,
-        author: { ...formData.author, profilePhoto: files[0] },
-      });
-    } else {
-      setFormData({ ...formData, [name]: files[0] });
+      if (files[0] && files[0].type.startsWith("image/")) {
+        setFormData((prev) => ({
+          ...prev,
+          author: { ...prev.author, profilePhoto: files[0] },
+        }));
+      } else {
+        setError("Please upload a valid image file for the profile photo.");
+      }
+    } else if (name === "relatedImages") {
+      const validImages = Array.from(files).filter((file) =>
+        file.type.startsWith("image/")
+      );
+      if (validImages.length > 0) {
+        setFormData((prev) => ({ ...prev, relatedImages: validImages }));
+      } else {
+        setError("Please upload valid image files for related images.");
+      }
     }
+  };
+
+  const validateForm = () => {
+    if (!formData.domainId) {
+      setError("Please select a domain.");
+      return false;
+    }
+    if (!formData.title.trim()) {
+      setError("Title is required.");
+      return false;
+    }
+    if (!formData.description.trim()) {
+      setError("Description is required.");
+      return false;
+    }
+    if (!formData.content.trim()) {
+      setError("Content is required.");
+      return false;
+    }
+    if (!formData.author.name.trim()) {
+      setError("Author name is required.");
+      return false;
+    }
+    if (!formData.author.email.trim()) {
+      setError("Author email is required.");
+      return false;
+    }
+    if (!formData.author.contact.trim()) {
+      setError("Author contact is required.");
+      return false;
+    }
+    if (!formData.author.profilePhoto) {
+      setError("Author profile photo is required.");
+      return false;
+    }
+    return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    setError("");
 
     const formDataToSend = new FormData();
     formDataToSend.append("domainId", formData.domainId);
@@ -71,27 +132,45 @@ const AddProject = () => {
     formDataToSend.append("description", formData.description);
     formDataToSend.append("content", formData.content);
     formDataToSend.append("level", formData.level);
-    formDataToSend.append("author", JSON.stringify(formData.author));
-    formDataToSend.append("publishedPapers", JSON.stringify(formData.publishedPapers));
+    formDataToSend.append("author[name]", formData.author.name);
+    formDataToSend.append("author[email]", formData.author.email);
+    formDataToSend.append("author[contact]", formData.author.contact);
+    formDataToSend.append("author[profilePhoto]", formData.author.profilePhoto);
     formDataToSend.append("futureAdvancements", formData.futureAdvancements);
     formDataToSend.append("issuesFaced", formData.issuesFaced);
-    formDataToSend.append("referenceLinks", JSON.stringify(formData.referenceLinks));
-    formDataToSend.append("relatedImages", JSON.stringify(formData.relatedImages));
+
+    formData.referenceLinks.forEach((link) => {
+      formDataToSend.append("referenceLinks[]", link);
+    });
+
+    formData.relatedImages.forEach((image) => {
+      formDataToSend.append("relatedImages", image);
+    });
 
     try {
-      const response = await axios.post("http://localhost:5000/api/projects", formDataToSend, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/projects",
+        formDataToSend,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       console.log("Project added successfully:", response.data);
       navigate(`/domains/${formData.domainId}/${formData.level}`);
     } catch (error) {
       console.error("Error adding project:", error);
+      setError(
+        error.response?.data?.error || "Failed to add project. Please try again."
+      );
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="add-project-page">
       <h1>Add New Project</h1>
+      {error && <div className="error-message">{error}</div>}
       <form onSubmit={handleSubmit} className="add-project-form">
         <div className="form-group">
           <label>Domain</label>
@@ -186,6 +265,7 @@ const AddProject = () => {
             type="file"
             name="profilePhoto"
             onChange={handleFileChange}
+            accept="image/*"
             required
           />
         </div>
@@ -211,12 +291,7 @@ const AddProject = () => {
             type="text"
             name="referenceLinks"
             value={formData.referenceLinks.join(", ")}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                referenceLinks: e.target.value.split(",").map((link) => link.trim()),
-              })
-            }
+            onChange={handleChange}
           />
         </div>
         <div className="form-group">
@@ -225,10 +300,13 @@ const AddProject = () => {
             type="file"
             name="relatedImages"
             onChange={handleFileChange}
+            accept="image/*"
             multiple
           />
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : "Submit"}
+        </button>
       </form>
     </div>
   );

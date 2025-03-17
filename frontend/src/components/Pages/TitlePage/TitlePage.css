@@ -122,3 +122,43 @@
   color: #cc1e4a;
   border: 4px solid #cc1e4a;
 }
+
+/* Add Project Card Styles */
+.add-project-card {
+  background-color: #f0f0f0;
+  border: 2px dashed #cc1e4a;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.add-project-card:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.add-project-card .topic-title {
+  color: #666;
+}
+
+.add-project-card .topic-description {
+  color: #888;
+}
+
+.add-project-card:hover .topic-title,
+.add-project-card:hover .topic-description {
+  color: #001f3f;
+}
+
+.loading,
+.error,
+.no-topics {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  color: #e7eaee;
+}
+
+.error {
+  color: #ff6b6b;
+}

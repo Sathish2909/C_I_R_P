@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import "./DomainPage.css";
 
@@ -7,14 +7,22 @@ const DomainPage = () => {
   const navigate = useNavigate();
   const [selectedLevel, setSelectedLevel] = useState(null);
   const [domains, setDomains] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchDomains = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/domains");
+        const response = await axios.get("http://localhost:5000/api/domains", {
+          headers: { "Content-Type": "application/json" },
+        });
         setDomains(response.data);
       } catch (error) {
         console.error("Error fetching domains:", error);
+        setError("Failed to load domains. Please try again later.");
+        setDomains([]);
+      } finally {
+        setLoading(false);
       }
     };
     fetchDomains();
@@ -42,6 +50,9 @@ const DomainPage = () => {
     setSelectedLevel(level === selectedLevel ? null : level);
   };
 
+  if (loading) return <div className="loading">Loading domains...</div>;
+  if (error) return <div className="error">{error}</div>;
+
   return (
     <div className="domain-page">
       <h1 className="domain-page-title">All Domains</h1>
@@ -68,6 +79,7 @@ const DomainPage = () => {
       </div>
 
       <div className="domains-container">
+        {/* Existing domains */}
         {domains.map((domain) => (
           <div
             key={domain._id}
@@ -113,6 +125,17 @@ const DomainPage = () => {
             <button className="click-button">Click Here</button>
           </div>
         ))}
+
+        {/* Add Domain Card - Always visible at the end */}
+        <div className="domain-card add-domain-card">
+          <Link to="/add-domain">
+            <div className="top-image">
+              <img src="/images/add-domain.png" alt="Add Domain" />
+            </div>
+            <h2 className="domain-title">Add New Domain</h2>
+            <p className="domain-description">Click here to add a new domain</p>
+          </Link>
+        </div>
       </div>
     </div>
   );
