@@ -1,14 +1,13 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
-// Register a new user
+
 const registerUser = async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
     const user = new User({ username, email, password });
     await user.save();
-
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
@@ -19,7 +18,23 @@ const registerUser = async (req, res) => {
   }
 };
 
-// Login user
+const logoutUser = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: false,    
+      sameSite: "None"  
+    });
+
+    res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    console.error("Error logging out:", error);
+    res.status(500).json({ message: "Error logging out" });
+  }
+};
+
+
+
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -39,4 +54,4 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser };
+module.exports = { registerUser, loginUser, logoutUser };
