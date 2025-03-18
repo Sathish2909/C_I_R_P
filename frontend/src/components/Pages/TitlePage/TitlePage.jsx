@@ -38,7 +38,13 @@ const TitlePage = () => {
   }, [domainId, level]);
 
   const handleTopicClick = (topicId) => {
-    navigate(`/domains/${domainId}/${level}/${topicId}`);
+    if (topics.find((topic) => topic._id === topicId)?.content) {
+      navigate(`/domains/${domainId}/${level}/${topicId}`);
+    } else {
+      navigate(`/domains/${domainId}/${level}/add-project`, {
+        state: { topicId },
+      });
+    }
   };
 
   if (loading) {
@@ -57,11 +63,11 @@ const TitlePage = () => {
       </h1>
       <h2 className="title-subtitle">Topics in this domain:</h2>
 
-      {topics.length === 0 ? (
-        <p className="no-topics">No topics available for this level.</p>
-      ) : (
-        <div className="topics-container">
-          {topics.map((topic) => (
+      <div className="topics-container">
+        {topics.length === 0 ? (
+          <p className="no-topics">No topics available for this level.</p>
+        ) : (
+          topics.map((topic) => (
             <div
               key={topic._id}
               className="topic-card"
@@ -72,18 +78,18 @@ const TitlePage = () => {
                 <p className="topic-description">{topic.description}</p>
               </div>
             </div>
-          ))}
-        </div>
-      )}
+          ))
+        )}
 
-      {/* Add Project Card - Always visible at the end */}
-      <div
-        className="topic-card add-project-card"
-        onClick={() => navigate(`/domains/${domainId}/${level}/add-project`)}
-      >
-        <div className="topic-content">
-          <h2 className="topic-title">Add Project</h2>
-          <p className="topic-description">Click to add a new project.</p>
+        {/* Add Project Card - Always visible at the end */}
+        <div
+          className="topic-card add-project-card"
+          onClick={() => navigate(`/domains/${domainId}/${level}/add-project`)}
+        >
+          <div className="topic-content">
+            <h2 className="topic-title">Add Project</h2>
+            <p className="topic-description">Click to add a new project.</p>
+          </div>
         </div>
       </div>
     </div>

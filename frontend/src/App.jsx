@@ -13,11 +13,14 @@ import TitlePage from "./components/Pages/TitlePage/TitlePage";
 import ProjectPage from "./components/Pages/ProjectPage/ProjectPage";
 import AddDomain from "./components/Pages/DomainPage/AddDomain";
 import AddProject from "./components/Pages/TitlePage/AddProject";
+import Login from "./components/Pages/Login/Login";
+import Register from "./components/Pages/Register/Register";
 
 function App() {
   return (
     <Router>
       <Routes>
+        {/* Home Page */}
         <Route
           path="/"
           element={
@@ -33,11 +36,30 @@ function App() {
             </>
           }
         />
+
+        {/* Domain Pages */}
         <Route path="/domains" element={<DomainPage />} />
         <Route path="/domains/:domainId/:level" element={<TitlePage />} />
         <Route path="/domains/:domainId/:level/:topicId" element={<ProjectPage />} />
+
+        {/* Add Domain and Add Project Pages */}
         <Route path="/add-domain" element={<AddDomain />} />
         <Route path="/domains/:domainId/:level/add-project" element={<AddProject />} />
+
+        {/* Authentication Pages */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* 404 Page (Fallback) */}
+        <Route
+          path="*"
+          element={
+            <div style={{ textAlign: "center", marginTop: "50px" }}>
+              <h1>404 - Page Not Found</h1>
+              <p>The page you are looking for does not exist.</p>
+            </div>
+          }
+        />
       </Routes>
     </Router>
   );

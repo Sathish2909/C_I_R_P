@@ -10,7 +10,7 @@ const projectSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
     contact: { type: String, required: true },
-    profilePhoto: { type: String, required: true }, // Path to the profile photo
+    profilePhoto: { type: String, required: true },
   },
   publishedPapers: [
     {
@@ -21,8 +21,8 @@ const projectSchema = new mongoose.Schema({
   ],
   futureAdvancements: { type: String },
   issuesFaced: { type: String },
-  referenceLinks: [{ type: String }], // Array of URLs
-  relatedImages: [{ type: String }], // Array of file paths
+  referenceLinks: [{ type: String }],
+  relatedImages: [{ type: String }],
   createdAt: { type: Date, default: Date.now },
 });
 

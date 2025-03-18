@@ -1,0 +1,53 @@
+/* Register.css */
+.register-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  .btn-register {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(45deg, #00b4db, #0083b0);
+    color: #fff;
+  }
+  
+  .btn-register:hover {
+    background: linear-gradient(45deg, #0083b0, #006687);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 131, 176, 0.3);
+  }
+
+  /* Login.css and Register.css */
+.login-page, .register-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #001f3f; /* Match your theme */
+    padding: 20px;
+  }
+  
+  .login-container, .register-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+  }

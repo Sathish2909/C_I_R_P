@@ -1,20 +1,19 @@
 const express = require("express");
-const { getProjectDetails, addProject } = require("../controllers/projectController");
-const upload = require("../utils/upload");
-
 const router = express.Router();
+const projectController = require("../controllers/projectController");
+const upload = require("../utils/upload"); // Import Multer configuration
 
-// GET project details
-router.get("/:topicId", getProjectDetails);
-
-// POST add a new project (with file uploads)
+// Route to add a new project
 router.post(
-  "/",
+  "/projects",
   upload.fields([
-    { name: "profilePhoto", maxCount: 1 }, // Single file for profile photo
-    { name: "relatedImages", maxCount: 10 }, // Up to 10 files for related images
+    { name: "profilePhoto", maxCount: 1 },
+    { name: "relatedImages", maxCount: 10 },
   ]),
-  addProject
+  projectController.addProject
 );
+
+// Route to get project details
+router.get("/projects/:topicId", projectController.getProjectDetails);
 
 module.exports = router;

@@ -25,21 +25,24 @@ const addProject = async (req, res) => {
       description,
       content,
       level,
-      author,
-      publishedPapers,
       futureAdvancements,
       issuesFaced,
-      referenceLinks,
     } = req.body;
 
     // Handle file uploads
-    const profilePhoto = req.files?.profilePhoto?.[0]?.path; // Path of the uploaded profile photo
-    const relatedImages = req.files?.relatedImages?.map((file) => file.path); // Array of paths for related images
+    const profilePhoto = req.files?.profilePhoto?.[0]?.path;
+    const relatedImages = req.files?.relatedImages?.map((file) => file.path);
 
-    // Parse JSON fields
-    const parsedAuthor = JSON.parse(author);
-    const parsedPublishedPapers = JSON.parse(publishedPapers);
-    const parsedReferenceLinks = JSON.parse(referenceLinks);
+    // Parse nested objects
+    const author = {
+      name: req.body.author.name,
+      email: req.body.author.email,
+      contact: req.body.author.contact,
+      profilePhoto,
+    };
+
+    const publishedPapers = JSON.parse(req.body.publishedPapers || "[]");
+    const referenceLinks = JSON.parse(req.body.referenceLinks || "[]");
 
     // Create a new project
     const newProject = new Project({
@@ -48,18 +51,14 @@ const addProject = async (req, res) => {
       description,
       content,
       level,
-      author: {
-        ...parsedAuthor,
-        profilePhoto, // Add the profile photo path
-      },
-      publishedPapers: parsedPublishedPapers,
+      author,
+      publishedPapers,
       futureAdvancements,
       issuesFaced,
-      referenceLinks: parsedReferenceLinks,
-      relatedImages, // Add the related images paths
+      referenceLinks,
+      relatedImages,
     });
 
-    // Save the project to the database
     await newProject.save();
     res.status(201).json(newProject);
   } catch (error) {

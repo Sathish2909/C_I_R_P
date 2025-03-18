@@ -7,22 +7,37 @@ const ProjectPage = () => {
   const { topicId } = useParams();
   const [topic, setTopic] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/topics/${topicId}`)
-      .then((response) => {
+    const fetchTopicDetails = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/projects/${topicId}`
+        );
         setTopic(response.data);
         setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching topic details:", error);
+        setError("Failed to load topic details. Please try again later.");
         setLoading(false);
-      });
+      }
+    };
+
+    fetchTopicDetails();
   }, [topicId]);
 
-  if (loading) return <div className="loading">Loading...</div>;
-  if (!topic) return <div className="error">Topic not found.</div>;
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error">{error}</div>;
+  }
+
+  if (!topic) {
+    return <div className="error">Topic not found.</div>;
+  }
 
   return (
     <div className="project-page">
@@ -58,7 +73,11 @@ const ProjectPage = () => {
               <ul>
                 {topic.referenceLinks.map((link, index) => (
                   <li key={index}>
-                    <a href={link} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       {link}
                     </a>
                   </li>
@@ -74,7 +93,11 @@ const ProjectPage = () => {
                 {topic.publishedPapers.map((paper, index) => (
                   <li key={index}>
                     <strong>{paper.title}</strong> - {paper.date}
-                    <a href={paper.fileUrl} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={paper.fileUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       View PDF
                     </a>
                   </li>
@@ -92,7 +115,10 @@ const ProjectPage = () => {
             </div>
             <div className="author-text">
               <h3>{topic.author.name}</h3>
-              <p>Email: <a href={`mailto:${topic.author.email}`}>{topic.author.email}</a></p>
+              <p>
+                Email:{" "}
+                <a href={`mailto:${topic.author.email}`}>{topic.author.email}</a>
+              </p>
               <p>Contact: {topic.author.contact}</p>
             </div>
           </div>

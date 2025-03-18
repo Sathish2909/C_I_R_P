@@ -183,3 +183,44 @@
 .content-box ul li a:hover {
   text-decoration: underline;
 }
+
+/* Add these to your existing CSS for better UX */
+.project-details .content-box ul li a {
+  color: #ffcc00;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.project-details .content-box ul li a:hover {
+  color: #cc1e4a;
+  text-decoration: underline;
+}
+
+.project-details .content-box ul li {
+  margin-bottom: 10px;
+}
+
+.project-details .content-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.project-details .content-box h2 {
+  margin-bottom: 15px;
+}
+
+.author-box .author-avatar img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #cc1e4a;
+}
+
+.author-box .author-text h3 {
+  margin-bottom: 10px;
+}
+
+.author-box .author-text p {
+  margin-bottom: 5px;
+}

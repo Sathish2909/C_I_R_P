@@ -20,25 +20,28 @@ const AddDomain = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     if (name === "topics") {
       const difficulty = e.target.dataset.difficulty;
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         topics: {
           ...prev.topics,
-          [difficulty]: value.split(",").map(item => item.trim()).filter(item => item)
-        }
+          [difficulty]: value
+            .split(",")
+            .map((item) => item.trim())
+            .filter((item) => item),
+        },
       }));
     } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file && file.type.startsWith("image/")) {
-      setFormData(prev => ({ ...prev, image: file }));
+      setFormData((prev) => ({ ...prev, image: file }));
       setError("");
     } else {
       setError("Please upload a valid image file.");
@@ -71,7 +74,7 @@ const AddDomain = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsSubmitting(true);
@@ -86,14 +89,20 @@ const AddDomain = () => {
     formDataToSend.append("topics[hard]", formData.topics.hard.join(","));
 
     try {
-      const response = await axios.post("http://localhost:5000/api/domains", formDataToSend, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/domains",
+        formDataToSend,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
       console.log("Domain added successfully:", response.data);
       navigate("/domains");
     } catch (error) {
       console.error("Error adding domain:", error);
-      setError(error.response?.data?.error || "Failed to add domain. Please try again.");
+      setError(
+        error.response?.data?.error || "Failed to add domain. Please try again."
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -104,7 +113,7 @@ const AddDomain = () => {
       <h1>Add New Domain</h1>
       <form onSubmit={handleSubmit} className="add-domain-form">
         {error && <div className="error-message">{error}</div>}
-        
+
         <div className="form-group">
           <label>Title</label>
           <input

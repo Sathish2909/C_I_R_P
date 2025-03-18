@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./AddProject.css";
 
 const AddProject = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { state } = location; // Access state passed from TitlePage
   const [domains, setDomains] = useState([]);
   const [formData, setFormData] = useState({
-    domainId: "",
+    domainId: state?.domainId || "", // Pre-fill domainId if passed
     title: "",
     description: "",
     content: "",
-    level: "easy",
+    level: state?.level || "easy", // Pre-fill level if passed
     author: {
       name: "",
       email: "",
       contact: "",
       profilePhoto: null,
     },
-    publishedPapers: [],
+    publishedPapers: [], // Initialize as an empty array
     futureAdvancements: "",
     issuesFaced: "",
     referenceLinks: [],
@@ -47,6 +49,14 @@ const AddProject = () => {
       setFormData((prev) => ({
         ...prev,
         author: { ...prev.author, [authorField]: value },
+      }));
+    } else if (name.startsWith("publishedPapers.")) {
+      const [field, index, subField] = name.split(".");
+      const updatedPapers = [...formData.publishedPapers];
+      updatedPapers[index][subField] = value;
+      setFormData((prev) => ({
+        ...prev,
+        publishedPapers: updatedPapers,
       }));
     } else if (name === "referenceLinks") {
       setFormData((prev) => ({
@@ -80,6 +90,21 @@ const AddProject = () => {
         setError("Please upload valid image files for related images.");
       }
     }
+  };
+
+  const addPublishedPaper = () => {
+    setFormData((prev) => ({
+      ...prev,
+      publishedPapers: [...prev.publishedPapers, { title: "", date: "", fileUrl: "" }],
+    }));
+  };
+
+  const removePublishedPaper = (index) => {
+    const updatedPapers = formData.publishedPapers.filter((_, i) => i !== index);
+    setFormData((prev) => ({
+      ...prev,
+      publishedPapers: updatedPapers,
+    }));
   };
 
   const validateForm = () => {
@@ -138,6 +163,12 @@ const AddProject = () => {
     formDataToSend.append("author[profilePhoto]", formData.author.profilePhoto);
     formDataToSend.append("futureAdvancements", formData.futureAdvancements);
     formDataToSend.append("issuesFaced", formData.issuesFaced);
+
+    formData.publishedPapers.forEach((paper, index) => {
+      formDataToSend.append(`publishedPapers[${index}][title]`, paper.title);
+      formDataToSend.append(`publishedPapers[${index}][date]`, paper.date);
+      formDataToSend.append(`publishedPapers[${index}][fileUrl]`, paper.fileUrl);
+    });
 
     formData.referenceLinks.forEach((link) => {
       formDataToSend.append("referenceLinks[]", link);
@@ -268,6 +299,48 @@ const AddProject = () => {
             accept="image/*"
             required
           />
+        </div>
+        <div className="form-group">
+          <label>Published Papers</label>
+          {formData.publishedPapers.map((paper, index) => (
+            <div key={index} className="published-paper">
+              <input
+                type="text"
+                name={`publishedPapers.${index}.title`}
+                value={paper.title}
+                onChange={handleChange}
+                placeholder="Paper Title"
+              />
+              <input
+                type="date"
+                name={`publishedPapers.${index}.date`}
+                value={paper.date}
+                onChange={handleChange}
+                placeholder="Publication Date"
+              />
+              <input
+                type="text"
+                name={`publishedPapers.${index}.fileUrl`}
+                value={paper.fileUrl}
+                onChange={handleChange}
+                placeholder="File URL"
+              />
+              <button
+                type="button"
+                onClick={() => removePublishedPaper(index)}
+                className="remove-paper-button"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={addPublishedPaper}
+            className="add-paper-button"
+          >
+            Add Another Paper
+          </button>
         </div>
         <div className="form-group">
           <label>Future Advancements</label>
